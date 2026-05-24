@@ -5,6 +5,7 @@ from typing import Callable, Iterable
 
 ACTIVITIES = ("puzzles", "drawing", "music", "bookreading")
 ACTIVITY_TO_LEVEL = {name: idx + 1 for idx, name in enumerate(ACTIVITIES)}
+ACTIVITY_LEVEL_SPAN = max(len(ACTIVITIES) - 1, 1)
 
 
 @dataclass
@@ -76,7 +77,7 @@ def _svg_axes(width: int, height: int, margin: int) -> str:
 def _activity_tick_labels(width: int, height: int, margin: int) -> Iterable[str]:
     graph_height = height - (2 * margin)
     for activity, level in ACTIVITY_TO_LEVEL.items():
-        y = height - margin - ((level - 1) * graph_height / (len(ACTIVITIES) - 1 if len(ACTIVITIES) > 1 else 1))
+        y = height - margin - ((level - 1) * graph_height / ACTIVITY_LEVEL_SPAN)
         label = f'<text x="{margin - 10}" y="{y + 4:.1f}" text-anchor="end" font-size="12">{activity}</text>'
         tick = f'<line x1="{margin - 4}" y1="{y:.1f}" x2="{margin}" y2="{y:.1f}" stroke="black" />'
         yield tick
@@ -94,7 +95,7 @@ def generate_svg_graph(data: SurveyData, output_path: str = "volunteer_activity_
     for index, volunteer in enumerate(data.volunteers):
         x = margin + ((index + 0.5) * x_step)
         y_level = ACTIVITY_TO_LEVEL[volunteer.activity]
-        y = height - margin - ((y_level - 1) * chart_height / (len(ACTIVITIES) - 1 if len(ACTIVITIES) > 1 else 1))
+        y = height - margin - ((y_level - 1) * chart_height / ACTIVITY_LEVEL_SPAN)
         point_elements.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="6" fill="#2b7" />')
         point_elements.append(
             f'<text x="{x:.1f}" y="{height - margin + 20}" text-anchor="middle" font-size="12">{volunteer.name}</text>'
