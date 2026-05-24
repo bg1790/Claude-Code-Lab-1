@@ -8,7 +8,7 @@ Python CLI app that:
 ## Run
 
 ```bash
-cd /home/runner/work/Claude-Code-Lab-1/Claude-Code-Lab-1
+cd <repository-root>
 python app.py
 ```
 
@@ -17,6 +17,6 @@ The graph is saved as `volunteer_activity_graph.svg` in the current directory.
 ## Test
 
 ```bash
-cd /home/runner/work/Claude-Code-Lab-1/Claude-Code-Lab-1
+cd <repository-root>
 python -m unittest discover -s tests -v
 ```
